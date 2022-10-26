@@ -14,9 +14,9 @@ with open('extras-requirements.txt') as f:
 
 # normal setuptool inputs
 setuptools.setup(
-    name='pollination-leed-daylight-option-I',                                     # will be used for package name unless it is overwritten using __queenbee__ info.
-    author='ladybug-tools',                                                 # the owner account for this package - required if pushed to Pollination
-    author_email='info@ladybug.tools',
+    name='pollination-leed-daylight-option-one',                                     # will be used for package name unless it is overwritten using __queenbee__ info.
+    author='pollination',                                                 # the owner account for this package - required if pushed to Pollination
+    author_email='info@pollination.solutions',
     packages=setuptools.find_namespace_packages(                            # required - that's how pollination find the package
         include=['pollination.*'], exclude=['tests', '.github']
     ),
@@ -24,7 +24,7 @@ setuptools.setup(
     extras_require={'viz': extras_requirements},
     use_scm_version=True,
     setup_requires=['setuptools_scm'],
-    url='https://github.com/pollination/leed-daylight-option-I',                   # will be translated to home
+    url='https://github.com/pollination/leed-daylight-option-one',                   # will be translated to home
     project_urls={
         'icon': 'https://raw.githubusercontent.com/ladybug-tools/artwork/master/icons_components/honeybee/png/annualrecipe.png',
         'docker': 'https://hub.docker.com/r/ladybugtools/honeybee-radiance'
@@ -32,9 +32,9 @@ setuptools.setup(
     description='LEED daylight option I recipe for Pollination.',                  # will be used as package description
     long_description=long_description,                                      # will be translated to ReadMe content on Pollination
     long_description_content_type="text/markdown",
-    maintainer='mikkel, ladybug-tools',                                   # Package maintainers. For multiple maintainers use comma
-    maintainer_email='mikkel@ladybug.tools, info@ladybug.tools',
-    keywords='honeybee, radiance, ladybug-tools, daylight, annual-daylight, leed-daylight-option-I', # will be used as keywords
+    maintainer='mikkel, pollination',                                   # Package maintainers. For multiple maintainers use comma
+    maintainer_email='mikkel@ladybug.tools, info@pollination.solutions',
+    keywords='honeybee, radiance, ladybug-tools, daylight, annual-daylight, leed-daylight-option-one', # will be used as keywords
     license='PolyForm Shield License 1.0.0, https://polyformproject.org/wp-content/uploads/2020/06/PolyForm-Shield-1.0.0.txt',  # the license link should be separated by a comma
     zip_safe=False
 )
