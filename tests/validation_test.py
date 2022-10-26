@@ -1,4 +1,4 @@
-from pollination.leed_daylight_option_I.entry import LeedDaylightOptionIEntryPoint
+from pollination.leed_daylight_option_one.entry import LeedDaylightOptionIEntryPoint
 from queenbee.recipe.dag import DAG
 
 
