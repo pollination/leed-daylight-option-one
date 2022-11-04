@@ -7,8 +7,7 @@ from pollination.honeybee_radiance_postprocess.leed import DaylightOption1
 from pollination.alias.inputs.model import hbjson_model_grid_input
 from pollination.alias.inputs.wea import wea_input_timestep_check
 from pollination.alias.inputs.north import north_input
-from pollination.alias.inputs.radiancepar import rad_par_annual_input, \
-    daylight_thresholds_input
+from pollination.alias.inputs.radiancepar import rad_par_annual_input
 from pollination.alias.inputs.grid import grid_filter_input, \
     min_sensor_count_input, cpu_count
 from pollination.alias.inputs.schedule import schedule_csv_input
@@ -78,17 +77,6 @@ class LeedDaylightOptionIEntryPoint(DAG):
         description='Path to an annual schedule file. Values should be 0-1 separated '
         'by new line. If not provided an 8-5 annual schedule will be created.',
         extensions=['txt', 'csv'], optional=True, alias=schedule_csv_input
-    )
-
-    thresholds = Inputs.str(
-        description='A string to change the threshold for daylight autonomy and useful '
-        'daylight illuminance. Valid keys are -t for daylight autonomy threshold, -lt '
-        'for the lower threshold for useful daylight illuminance and -ut for the upper '
-        'threshold. The default is -t 300 -lt 100 -ut 3000. The order of the keys is '
-        'not important and you can include one or all of them. For instance if you only '
-        'want to change the upper threshold to 2000 lux you should use -ut 2000 as '
-        'the input.', default='-t 300 -lt 100 -ut 3000',
-        alias=daylight_thresholds_input
     )
 
     shade_transmittance = Inputs.float(
