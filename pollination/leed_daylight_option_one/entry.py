@@ -1,7 +1,7 @@
 from pollination_dsl.dag import Inputs, DAG, task, Outputs
 from dataclasses import dataclass
 from pollination.two_phase_daylight_coefficient import TwoPhaseDaylightCoefficientEntryPoint
-from pollination.honeybee_radiance_postprocess.leed import DaylightOption1
+from pollination.honeybee_radiance_postprocess.leed import DaylightOptionOne
 
 # input/output alias
 from pollination.alias.inputs.model import hbjson_model_grid_input
@@ -102,17 +102,17 @@ class LeedDaylightOptionIEntryPoint(DAG):
         pass    
 
     @task(
-        template=DaylightOption1,
+        template=DaylightOptionOne,
         needs=[run_two_phase_daylight_coefficient]
     )
-    def leed_daylight_option_1(
+    def leed_daylight_option_one(
         self, folder='results',
         shade_transmittance=shade_transmittance,
         shd_transmittance_file=shade_transmittance_file, model=model
     ):
         return [
             {
-                'from': DaylightOption1()._outputs.leed_summary,
+                'from': DaylightOptionOne()._outputs.leed_summary,
                 'to': 'leed_summary'
             }
         ]
