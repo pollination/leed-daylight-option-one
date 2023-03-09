@@ -73,15 +73,9 @@ class LeedDaylightOptionIEntryPoint(DAG):
         alias=wea_input_timestep_check
     )
 
-    schedule = Inputs.file(
-        description='Path to an annual schedule file. Values should be 0-1 separated '
-        'by new line. If not provided an 8-5 annual schedule will be created.',
-        extensions=['txt', 'csv'], optional=True, alias=schedule_csv_input
-    )
-
     shade_transmittance = Inputs.float(
         description='A value to use as a multiplier in place of solar shading. Value '
-        'for shade transmittance must be 1 > value > 0.', default=0.2
+        'for shade transmittance must be 1 > value > 0.', default=0.05
     )
 
     shade_transmittance_file = Inputs.file(
