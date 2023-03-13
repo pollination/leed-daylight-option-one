@@ -10,7 +10,6 @@ from pollination.alias.inputs.north import north_input
 from pollination.alias.inputs.radiancepar import rad_par_annual_input
 from pollination.alias.inputs.grid import grid_filter_input, \
     min_sensor_count_input, cpu_count
-from pollination.alias.inputs.schedule import schedule_csv_input
 
 
 @dataclass
@@ -118,4 +117,45 @@ class LeedDaylightOptionIEntryPoint(DAG):
 
     leed_summary = Outputs.folder(
         source='leed_summary', description='LEED summary folder.'
+    )
+
+    credit_summary = Outputs.file(
+        description='JSON file containing the number of LEED credits achieved and '
+        'sDA and ASE for the whole space combined.',
+        source='leed_summary/summary.json'
+    )
+
+    space_summary = Outputs.file(
+        description='JSON file containing the sDA and ASE for each space.',
+        source='leed_summary/summary_grid.json'
+    )
+
+    dynamic_schedule = Outputs.file(
+        description='JSON file containing the dynamic schedule of shade '
+        'transmittance values for each hour.',
+        source='leed_summary/states_schedule.json'
+    )
+
+    dynamic_schedule_err = Outputs.file(
+        description='JSON file containing the hours at which no shading combination '
+        'pass the 2% rule if any.',
+        source='leed_summary/states_schedule_err.json'
+    )
+
+    daylight_autonomy = Outputs.folder(
+        description='Daylight Autonomy results with the shade transmittance '
+        'following the 2% rule.',
+        source='leed_summary/results/da'
+    )
+
+    ase_hours_above = Outputs.folder(
+        description='The number of hours where the direct illuminance is 1000 lux '
+        'or higher.',
+        source='leed_summary/results/ase_hours_above'
+    )
+
+    hourly_percentage_above = Outputs.folder(
+        description='The hourly percentage of floor area where the direct illuminance '
+        'is 1000 lux or higher.',
+        source='leed_summary/datacollections/ase_percentage_above'
     )
