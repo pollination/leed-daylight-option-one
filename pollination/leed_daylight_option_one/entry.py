@@ -10,6 +10,9 @@ from pollination.alias.inputs.north import north_input
 from pollination.alias.inputs.radiancepar import rad_par_annual_input
 from pollination.alias.inputs.grid import grid_filter_input, \
     min_sensor_count_input, cpu_count
+from pollination.alias.outputs.daylight import leed_one_credit_summary_results, \
+    leed_one_ase_hours_above_results, daylight_autonomy_results, \
+    leed_one_hourly_pct_above_results, leed_one_shade_transmittance_results
 
 
 @dataclass
@@ -122,7 +125,8 @@ class LeedDaylightOptionIEntryPoint(DAG):
     credit_summary = Outputs.file(
         description='JSON file containing the number of LEED credits achieved and '
         'sDA and ASE for the whole space combined.',
-        source='leed_summary/summary.json'
+        source='leed_summary/summary.json',
+        alias=leed_one_credit_summary_results
     )
 
     space_summary = Outputs.file(
@@ -133,7 +137,8 @@ class LeedDaylightOptionIEntryPoint(DAG):
     dynamic_schedule = Outputs.file(
         description='JSON file containing the dynamic schedule of shade '
         'transmittance values for each hour.',
-        source='leed_summary/states_schedule.json'
+        source='leed_summary/states_schedule.json',
+        alias=leed_one_shade_transmittance_results
     )
 
     dynamic_schedule_err = Outputs.file(
@@ -145,17 +150,20 @@ class LeedDaylightOptionIEntryPoint(DAG):
     daylight_autonomy = Outputs.folder(
         description='Daylight Autonomy results with the shade transmittance '
         'following the 2% rule.',
-        source='leed_summary/results/da'
+        source='leed_summary/results/da',
+        alias=daylight_autonomy_results
     )
 
     ase_hours_above = Outputs.folder(
         description='The number of hours where the direct illuminance is 1000 lux '
         'or higher.',
-        source='leed_summary/results/ase_hours_above'
+        source='leed_summary/results/ase_hours_above',
+        alias=leed_one_ase_hours_above_results
     )
 
     hourly_percentage_above = Outputs.folder(
         description='The hourly percentage of floor area where the direct illuminance '
         'is 1000 lux or higher.',
-        source='leed_summary/datacollections/ase_percentage_above'
+        source='leed_summary/datacollections/ase_percentage_above',
+        alias=leed_one_hourly_pct_above_results
     )
