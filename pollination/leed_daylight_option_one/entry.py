@@ -102,7 +102,7 @@ class LeedDaylightOptionIEntryPoint(DAG):
         needs=[run_two_phase_daylight_coefficient]
     )
     def leed_daylight_option_one(
-        self, folder='results',
+        self, folder='results', grid_filter=grid_filter,
         shade_transmittance=shade_transmittance,
         shd_transmittance_file=shade_transmittance_file, model=model
     ):
