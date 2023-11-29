@@ -71,7 +71,7 @@ class LeedDaylightOptionIEntryPoint(DAG):
 
     wea = Inputs.file(
         description='Wea file.',
-        extensions=['wea'],
+        extensions=['wea', 'epw'],
         alias=wea_input_timestep_check
     )
 
@@ -95,7 +95,7 @@ class LeedDaylightOptionIEntryPoint(DAG):
             radiance_parameters=radiance_parameters, grid_filter=grid_filter,
             model=model, wea=wea
     ):
-        pass    
+        pass
 
     @task(
         template=DaylightOptionOne,
