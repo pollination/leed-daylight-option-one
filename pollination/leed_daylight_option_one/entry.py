@@ -79,7 +79,8 @@ class LeedDaylightOptionIEntryPoint(DAG):
 
     shade_transmittance = Inputs.float(
         description='A value to use as a multiplier in place of solar shading. Value '
-        'for shade transmittance must be 1 > value > 0.', default=0.05
+        'for shade transmittance must be 1 > value > 0.', default=0.05,
+        spec={'type': 'number', 'minimum': 0.001}
     )
 
     shade_transmittance_file = Inputs.file(
