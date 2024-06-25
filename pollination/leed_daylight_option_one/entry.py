@@ -11,8 +11,9 @@ from pollination.alias.inputs.radiancepar import rad_par_annual_input
 from pollination.alias.inputs.grid import grid_filter_input, \
     min_sensor_count_input, cpu_count
 from pollination.alias.outputs.daylight import leed_one_credit_summary_results, \
-    leed_one_ase_hours_above_results, daylight_autonomy_results, \
-    leed_one_hourly_pct_above_results, leed_one_shade_transmittance_results
+    leed_one_summary_grid_results, leed_one_ase_hours_above_results, \
+    daylight_autonomy_results, leed_one_hourly_pct_above_results, \
+    leed_one_shade_transmittance_results
 
 
 @dataclass
@@ -134,7 +135,8 @@ class LeedDaylightOptionIEntryPoint(DAG):
 
     space_summary = Outputs.file(
         description='JSON file containing the sDA and ASE for each space.',
-        source='leed_summary/summary_grid.json'
+        source='leed_summary/summary_grid.json',
+        alias=leed_one_summary_grid_results
     )
 
     dynamic_schedule = Outputs.file(
