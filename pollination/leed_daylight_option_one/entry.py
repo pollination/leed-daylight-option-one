@@ -1,5 +1,6 @@
 from pollination_dsl.dag import Inputs, DAG, task, Outputs
 from dataclasses import dataclass
+from pollination.honeybee_radiance.multiphase import AddApertureGroupBlinds
 from pollination.two_phase_daylight_coefficient import TwoPhaseDaylightCoefficientEntryPoint
 from pollination.honeybee_radiance_postprocess.leed import DaylightOptionOne
 
@@ -78,26 +79,41 @@ class LeedDaylightOptionIEntryPoint(DAG):
         alias=wea_input_timestep_check
     )
 
-    shade_transmittance = Inputs.float(
-        description='A value to use as a multiplier in place of solar shading. Value '
-        'for shade transmittance must be 1 > value > 0.', default=0.05,
-        spec={'type': 'number', 'minimum': 0.001}
+    diffuse_transmission = Inputs.float(
+        default=0.05,
+        description='Diffuse transmission of the aperture group blinds. Default '
+        'is 0.05 (5%).',
+        spec={'type': 'number', 'minimum': 0, 'maximum': 1}
     )
 
-    shade_transmittance_file = Inputs.file(
-        description='A JSON file with a dictionary where aperture groups are keys, and '
-        'the value for each key is the shade transmittance. Values for shade '
-        'transmittance must be 1 > value > 0.',
-        path='shade_transmittance.json', extensions=['json'], optional=True
+    specular_transmission = Inputs.float(
+        default=0.0,
+        description='Specular transmission of the aperture group blinds. Default '
+        'is 0 (0%).',
+        spec={'type': 'number', 'minimum': 0, 'maximum': 1}
     )
+
+    @task(template=AddApertureGroupBlinds)
+    def add_aperture_group_blinds(
+        self, model=model, diffuse_transmission=diffuse_transmission,
+        specular_transmission=specular_transmission
+    ):
+        return [
+            {
+                'from': AddApertureGroupBlinds()._outputs.output_model,
+                'to': 'model_blinds.hbjson'
+            }
+        ]
+
 
     @task(
-        template=TwoPhaseDaylightCoefficientEntryPoint
+        template=TwoPhaseDaylightCoefficientEntryPoint,
+        needs=[add_aperture_group_blinds]
     )
     def run_two_phase_daylight_coefficient(
             self, north=north, cpu_count=cpu_count, min_sensor_count=min_sensor_count,
             radiance_parameters=radiance_parameters, grid_filter=grid_filter,
-            model=model, wea=wea
+            model=add_aperture_group_blinds._outputs.output_model, wea=wea
     ):
         pass
 
@@ -106,9 +122,8 @@ class LeedDaylightOptionIEntryPoint(DAG):
         needs=[run_two_phase_daylight_coefficient]
     )
     def leed_daylight_option_one(
-        self, folder='results', grid_filter=grid_filter,
-        shade_transmittance=shade_transmittance,
-        shd_transmittance_file=shade_transmittance_file, model=model
+        self, folder='results', grid_filter=grid_filter, model=model,
+        blind_postprocess='states'
     ):
         return [
             {
