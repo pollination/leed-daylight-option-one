@@ -21,9 +21,14 @@ owner = 'pollination'
 project = 'leed-daylight-option-one'
 recipe_name = 'leed-daylight-option-one'
 
+recipe_owner = 'pollination'
+recipe_name = 'leed-daylight-option-one'
+project_owner = 'ladybug-tools'
+project = 'leed-daylight-option-one'
+
 api_client = ApiClient(host, api_key)
-recipe = Recipe(owner, recipe_name, recipe_tag, client=api_client)
-recipe.add_to_project(f'{owner}/{project}')
+recipe = Recipe(recipe_owner, recipe_name, recipe_tag, client=api_client)
+recipe.add_to_project(f'{project_owner}/{project}')
 
 # load recipe inputs for each sample run
 samples_path = Path(__file__).parent.resolve().joinpath('sample_runs.json')
@@ -33,7 +38,7 @@ with open(samples_path, encoding='utf-8') as samples_json:
 # create a new job
 datetime_now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 name = f'Samples (Scheduled by GitHub workflow: {datetime_now})'
-new_study = NewJob(owner, project, recipe, name=name, client=api_client)
+new_study = NewJob(project_owner, project, recipe, name=name, client=api_client)
 
 # get all unique artifacts
 artifacts = set()
