@@ -83,14 +83,14 @@ class LeedDaylightOptionIEntryPoint(DAG):
         default=0.05,
         description='Diffuse transmission of the aperture group blinds. Default '
         'is 0.05 (5%).',
-        spec={'type': 'number', 'minimum': 0, 'maximum': 1}
+        spec={'type': 'number', 'minimum': 0.0001, 'maximum': 1}
     )
 
     specular_transmission = Inputs.float(
-        default=0.0,
+        default=0.0001,
         description='Specular transmission of the aperture group blinds. Default '
         'is 0 (0%).',
-        spec={'type': 'number', 'minimum': 0, 'maximum': 1}
+        spec={'type': 'number', 'minimum': 0.0001, 'maximum': 1}
     )
 
     @task(template=AddApertureGroupBlinds)
