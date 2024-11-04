@@ -68,10 +68,10 @@ new_study.arguments = study_inputs
 
 # create the study
 running_study = new_study.create()
-if host == 'https://api.staging.pollination.cloud':
-    pollination_url = 'https://app.staging.pollination.cloud'
+if host == 'https://api.staging.pollination.solutions':
+    pollination_url = 'https://app.staging.pollination.solutions'
 else:
-    pollination_url = 'https://app.pollination.cloud'
+    pollination_url = 'https://app.pollination.solutions'
 job_url = f'{pollination_url}/{running_study.owner}/projects/{running_study.project}/jobs/{running_study.id}'
 print(job_url)
 
