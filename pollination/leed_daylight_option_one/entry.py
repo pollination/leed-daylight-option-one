@@ -16,6 +16,8 @@ from pollination.alias.outputs.daylight import leed_one_credit_summary_results, 
     daylight_autonomy_results, leed_one_hourly_pct_above_results, \
     leed_one_shade_transmittance_results
 
+from ._visualization import DaylightOptionOneVisualization
+
 
 @dataclass
 class LeedDaylightOptionIEntryPoint(DAG):
@@ -131,6 +133,29 @@ class LeedDaylightOptionIEntryPoint(DAG):
                 'to': 'leed_summary'
             }
         ]
+
+    @task(
+        template=DaylightOptionOneVisualization,
+        needs=[run_two_phase_daylight_coefficient, leed_daylight_option_one],
+        sub_paths={
+            'pass_fail': 'pass_fail'
+        }
+    )
+    def create_visualization(
+        self, model=model, pass_fail=leed_daylight_option_one._outputs.leed_summary
+    ):
+        return [
+            {
+                'from': DaylightOptionOneVisualization()._outputs.visualization,
+                'to': 'visualization.vsf'
+            }
+        ]
+
+
+    visualization = Outputs.file(
+        source='visualization.vsf',
+        description='Visualization in VisualizationSet format.'
+    )
 
     results = Outputs.folder(
         source='results', description='Folder with raw result files (.ill) that '
