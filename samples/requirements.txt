@@ -1,1 +1,1 @@
-pollination-io==1.0.3
+pollination-io==1.1.1
