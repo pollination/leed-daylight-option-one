@@ -74,7 +74,8 @@ class LeedDaylightOptionIEntryPoint(DAG):
     )
 
     wea = Inputs.file(
-        description='Wea file.',
+        description='Wea or EPW file. This must be an hourly weather file with annual '
+        'data.',
         extensions=['wea', 'epw'],
         alias=wea_input_timestep_check
     )
