@@ -6,7 +6,7 @@ from pollination.honeybee_radiance_postprocess.leed import DaylightOptionOne
 
 # input/output alias
 from pollination.alias.inputs.model import hbjson_model_grid_input
-from pollination.alias.inputs.wea import wea_input_timestep_check
+from pollination.alias.inputs.wea import wea_input_timestep_annual_check
 from pollination.alias.inputs.north import north_input
 from pollination.alias.inputs.radiancepar import rad_par_annual_input
 from pollination.alias.inputs.grid import grid_filter_input, cpu_count
@@ -45,7 +45,7 @@ class LeedDaylightOptionIEntryPoint(DAG):
         'redistributing the sensors based on cpu_count. This value takes '
         'precedence over the cpu_count and can be used to ensure that '
         'the parallelization does not result in generating unnecessarily small '
-        'sensor grids. The default value is set to 500 for local runs.',
+        'sensor grids.',
         default=1000, default_local=500,
         spec={'type': 'integer', 'minimum': 1}
     )
@@ -77,7 +77,7 @@ class LeedDaylightOptionIEntryPoint(DAG):
         description='Wea or EPW file. This must be an hourly weather file with annual '
         'data.',
         extensions=['wea', 'epw'],
-        alias=wea_input_timestep_check
+        alias=wea_input_timestep_annual_check
     )
 
     diffuse_transmission = Inputs.float(
