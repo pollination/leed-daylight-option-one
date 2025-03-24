@@ -102,7 +102,7 @@ class LeedDaylightOptionIEntryPoint(DAG):
         return [
             {
                 'from': AddApertureGroupBlinds()._outputs.output_model,
-                'to': 'model_blinds.hbjson'
+                'to': 'output_model.hbjson'
             }
         ]
 
@@ -150,6 +150,9 @@ class LeedDaylightOptionIEntryPoint(DAG):
             }
         ]
 
+    output_model = Outputs.file(
+        source='output_model.hbjson', description='Model with blinds.'
+    )
 
     visualization = Outputs.file(
         source='visualization.vsf',
