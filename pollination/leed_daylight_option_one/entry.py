@@ -114,7 +114,8 @@ class LeedDaylightOptionIEntryPoint(DAG):
     def run_two_phase_daylight_coefficient(
             self, north=north, cpu_count=cpu_count, min_sensor_count=min_sensor_count,
             radiance_parameters=radiance_parameters, grid_filter=grid_filter,
-            model=add_aperture_group_blinds._outputs.output_model, wea=wea
+            model=add_aperture_group_blinds._outputs.output_model, wea=wea,
+            dtype='float16'
     ):
         pass
 
