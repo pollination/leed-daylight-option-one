@@ -5,7 +5,7 @@ from pollination.two_phase_daylight_coefficient import TwoPhaseDaylightCoefficie
 from pollination.honeybee_radiance_postprocess.leed import DaylightOptionOne
 
 # input/output alias
-from pollination.alias.inputs.model import hbjson_model_room_input
+from pollination.alias.inputs.model import hbjson_model_grid_room_input
 from pollination.alias.inputs.wea import wea_input_timestep_annual_check
 from pollination.alias.inputs.north import north_input
 from pollination.alias.inputs.radiancepar import rad_par_annual_input
@@ -70,7 +70,7 @@ class LeedDaylightOptionIEntryPoint(DAG):
         'This can also be a zipped version of a Radiance folder, in which case this '
         'recipe will simply unzip the file and simulate it as-is.',
         extensions=['json', 'hbjson', 'pkl', 'hbpkl', 'zip'],
-        alias=hbjson_model_room_input
+        alias=hbjson_model_grid_room_input
     )
 
     wea = Inputs.file(
@@ -121,10 +121,11 @@ class LeedDaylightOptionIEntryPoint(DAG):
 
     @task(
         template=DaylightOptionOne,
-        needs=[run_two_phase_daylight_coefficient]
+        needs=[run_two_phase_daylight_coefficient, add_aperture_group_blinds]
     )
     def leed_daylight_option_one(
-        self, folder='results', grid_filter=grid_filter, model=model,
+        self, folder='results', grid_filter=grid_filter,
+        model=add_aperture_group_blinds._outputs.output_model,
         blind_postprocess='states'
     ):
         return [
